@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redisbank-am-deployment
+spec:
+  selector:
+    matchLabels:
+      app: redisbank-am
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: redisbank-am
+    spec:
+      containers:
+      - name: redisbank-am
+        image: public.ecr.aws/i9l0l1r7/immersday/redisbank-am:latest
+        imagePullPolicy: Always
+        ports:
+        - name: redisbank-am
+          containerPort: 8082
+        env:
+        - name: SPRING_REDIS_HOSTTR
+          value: "<Enter your host>"
+        - name: SPRING_REDIS_PORTTR
+          value: "<Enter your port>"
+        - name: SPRING_REDIS_HOST
+          value: "<Enter your host>"
+        - name: SPRING_REDIS_PORT
+          value: "<Enter your port>"
+        - name: SPRING_REDIS_PASSWORD
+          value: "<Enter your password>"
+        #- name: SPRING_PROFILES_ACTIVE
+        #  value: "tls"
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: redisbank-am-ingress
+  annotations:
+    alb.ingress.kubernetes.io/group.name: redisbank
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+spec:
+  ingressClassName: alb
+  rules:
+  - host: am.<studentX>.redisdemo.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: redisbank-am
+            port:
+              number: 8082
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redisbank-am
+  labels:
+    app: redisbank-am
+spec:
+  ports:
+  - port: 8082
+    name: redisbank-am
+    protocol: TCP
+  selector:
+    app: redisbank-am 
