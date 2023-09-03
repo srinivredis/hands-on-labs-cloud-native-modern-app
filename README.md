@@ -1,267 +1,63 @@
-# Lab 01 - EKS deployment from EC2
+# hands-on-labs-redis-aws-clound-native-modern-app
 
-Duration: 30 mins
 
-## Goals:
-- Deploy an EC2 instance (our client machine) and install various necessary utilities to complete our lab
-- Set credentials and configuration used aws configure 
-- Install K8s related tools like kubectl, Helm, eksctl
-- Launch EKS cluster
+Redis Enterprise Cloud (RC) is a DBaaS (Database-as-a-Service) offering from Redis Inc, the home of RedisOSS. RC is build on top of Redis open source and adds support for other data models, like native JSON and search, graph, and timeseries.  In addition it has  enterprise features like Active-Active Geo replication, High Availability - guaranteeing upto 5 9's (99.999%) uptime and the ability to use tiered storage, Redis on Flash, all built in to our managed service.
 
-In this lab we will launch an EC2 instance and install all the necessary utilities.Then we will deploy EKS cluster. 
-If you are the root user or an IAM user with "Admin Access" then you should be all set with all the permissions needed to run the labs.
+Amazon Elastic Kubernetes Service (Amazon EKS) is a managed Kubernetes service to run Kubernetes in the AWS cloud and on-premises data centers. In the cloud, Amazon EKS automatically manages the availability and scalability of the Kubernetes control plane nodes responsible for scheduling containers, managing application availability, storing cluster data, and other key tasks. With Amazon EKS, you can take advantage of all the performance, scale, reliability, and availability of AWS infrastructure, as well as integrations with AWS networking and security services. On-premises, EKS provides a consistent, fully-supported Kubernetes solution with integrated tooling and simple deployment to AWS Outposts, virtual machines, or bare metal servers.
 
 
-## Prepare environment
 
-1. Lets start with creating an EC2 machine that will be used as client machine.
+In this workshop, we will look at a monolith bank application and then deploy the same application as a microservices based application inside an EKS cluster. We will leverage Redis Enterprise Cloud on AWS as the modern data store. This hands-on experience will serve as a great learning experience on how to build and deploy modern cloud-native real-time applications leveraging Redis Enterprise Cloud and AWS services.
 
-![](images/ec2-dashboard.png)
+## Venue
+These hands-on workshops are designed for in-person and for virtual experiences.
 
-2. Navigate yourself to EC2 dashboard
+## Duration
+3.5 to 4 hours
 
-![](images/launch-instance.png)
+## Prerequisites
+These hands-on labs are targeted for Technical stakeholders like Application Developers, DevOps, Technical Leads and Architects. If you are not in any of the above mentioned roles, it would be a disservice for yourself to go any further beyond this point. But if you are one of those most curious souls who do not shy away from getting hands-dirty, we still welcome you to hop on the journey.
 
-3. Launch an instance. Give it a name and search for Centos AMIs. Type "centos" and hit enter. Then click on "AWS Marketplace AMIs".
+Here are few hard skills that you would want to bring to the table:
+- Very comfortable with AWS web console, AWS CLI.
+- Very comfortable running SSH terminal session in connecting to remote servers (ec2 machines)
+- Very familiar with Docker, Containers, and k8s. 
 
-![](images/name-instance.png)
+You will also bring your own laptop / desktop with a browser. You will also bring your AWS account. But don't worry, AWS is giving credits that you can use to run these labs up until you exhaust these credits. We will also help you with cleanup scripts so that you do not get a surprise bill at the end. More on it in the labs.
 
-![](images/marketplace-ami.png)
+## Agenda
 
-4. In the search results select CentOS 8x for x86_64 architecture, as shown.
+* Introductions
+  *	Introduction to Redis Enterprise Cloud
+  * Customer Use Cases
+  * Why customers love Redis
 
-![](images/select-centos.png)
+* [Demo - Deploying Redis Enterprise Cloud on AWS](https://docs.google.com/presentation/d/1-2aRQEQQ0LS97OGv2D_nIaoJK2w1-2XY/edit#slide=id.p11)
+* [Lab 0 - Signup for AWS](Lab%200%20-%20Signup%20for%20AWS) 
+  * Signup
+  * Applying Credits
 
-5. Continue further
+* Lecture - Why orgs modernize
+  * Why modernize?
 
-![](images/instance-continue.png)
+* [Lab 1 - EKS deployment from EC2](Lab%201%20-%20EKS%20Deploy%20from%20EC2)
+  * Deploy EC2 and install utilities
+  * Deploy EKS cluster
+  
+* Lecture - AWS Services for App Modernization
+  * AWS Services
 
-6. Choose instance type as "t2-medium"
+* [Lab 2 - Connect and Deploy a sample ppplication from EKS](Lab%202%20-%20Sample%20App%20in%20EKS)
+  * Connect to EKS
+  * Deploy a sample app and validate
+  * Delete the sameple app
 
-![](images/instance-type.png)
+* [Lab 3 - Deploy Cloud Native Application](Lab%203%20-%20Deploy%20Cloud%20Native%20App)
+  * Deploy AWS Ingress Controller
+  * Deploy ui app and expose it as a service and deploy an ingress
+  * Deploy the remaining applications 
+  * Validate
 
-7. Create a new key pair.
+* [Lab 4 - Cleanup](Lab%204%20-%20Cleanup)
 
-![](images/key-pair.png)
-
-8. Give it a name, key pair type and file format, as shown.
-
-![](images/key-details.png)
-
-9. As soon as you exit out of this screen, the `.pem` file will be downloaded to your local machine.
-
-![](images/pem-download.png)
-
-10. Create a `Security Group` and allow `SSH Traffic` from `My IP`
-
-![](images/security-group.png)
-
-11. Configure storage as shown
-
-![](images/storage.png)
-
-12. Launch Instance
-
-![](images/final-launch.png)
-
-![](images/launch-success.png)
-
-13. Get the Public DNS/IP details to access it via SSH terminal from your local machine.
-
-![](images/public-dns.png)
-
-14. Open a Terminal Window and secure your `.pem` file, to be used with your SSH sessions
-
-```
-mv ~/Downloads/aws-redis.pem ~/.ssh/
-chmod 400 ~/.ssh/aws-redis.pem
-```
-
-15. Invoke SSH session using `ssh` command. Here is an example for a typical public IP address of an ec2 machine. Replace `ec2-server-hostname` with actual hostname. Make sure to use centos@<hostname> and not ec2user@<hostname> like the AWS webconsole suggests.
-```
-ssh -i "~/.ssh/aws-redis.pem" centos@<ec2-server-hostname>
-```
-An example:
-```
-ssh -i "~/.ssh/aws-redis.pem" centos@ec2-35-93-64-166.us-west-2.compute.amazonaws.com
-```
-
-
-![](images/connect-instance.png)
-
-
-16. Lets go ahead and install a few pre-requisite packages. We will start with generic utilities.
-```
-sudo yum install -y yum-utils
-```
-```
-sudo yum-config-manager \
-    --add-repo \
-    https://download.docker.com/linux/centos/docker-ce.repo
-```
-17. Install Docker and Docker Compose.
-
-```
-sudo yum install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
-```
-```
-sudo systemctl start docker
-```
-
-```
-sudo curl -L "https://github.com/docker/compose/releases/download/v2.1.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-```
-```
-sudo chmod +x /usr/local/bin/docker-compose
-```
-
-```
-sudo groupadd docker
-sudo usermod -aG docker ${USER}
-```
-
-The `exit` command will exit you out of SSH session. This is done to re-login again.
-
-```
-exit
-```
-
-Re-login using SSH command you already used. Here is an example:
-```
-ssh -i "~/.ssh/aws-redis.pem" centos@ec2-35-93-64-166.us-west-2.compute.amazonaws.com
-```
-Once you logged in, start Docker service.
-
-```
-sudo systemctl start docker
-```
-
-18. Install Git, wget, unzip
-
-```
-sudo yum install git -y
-sudo yum install wget -y
-sudo yum install unzip -y
-
-```
-
-19. Lets install AWS CLI.
-```
-curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-unzip awscliv2.zip
-sudo ./aws/install
-aws --version
-```
-
-20. Lets configure your AWS CLI.
-```
-aws configure
-```
-This tool will prompt you to enter the following information, to configure your CLI:
-- `AWS Access Key ID [None]:`
-- `AWS Secret Access Key [None]`
-- `Default region name [None]:`
-- `Default output format [None]:`
-
-You can get your `AWS Access Key ID` and `AWS Secret Access Key` from the AWS Webconsole.
-
-Go to `IAM` ==> `Security Credentials`
-
-![](images/16a-lambda.png)
-
-![](images/16-lambda.png)
-
-Go to `Access keys` section and create one.
-
-![](images/17-lambda.png)
-
-We are not building a Production system. Ignore this warning by click on `I understand...` and move forward by clicking on `Create access key`
-
-![](images/18-lambda.png)
-
-Once the access key is created, take a note of them from this screen. You will need it to configure your AWS CLI.
-
-![](images/19-lambda.png)
-
-Now feed this information to your `aws configure` tool. Here is a typical example:
-
-> NOTE: Do not execute the following snippet. Its just an example of a typical output.
-```
-[centos@ip-172-31-9-71 lamdba]$ aws configure
-AWS Access Key ID [None]: AKIXXXXXXXXXXFGF
-AWS Secret Access Key [None]: 3+QxxxxxxxxXXXXXXXXXxxxxxxXXXXXMvY
-Default region name [None]: us-west-2
-Default output format [None]:
-```
-
-## Install eksctl 
-
-1.  Lets install eksctl. Additional details can be found from [here](https://github.com/eksctl-io/eksctl/blob/main/README.md#installation).
-
-```
-# for ARM systems, set ARCH to: `arm64`, `armv6` or `armv7`
-ARCH=amd64
-PLATFORM=$(uname -s)_$ARCH
-
-curl -sLO "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_$PLATFORM.tar.gz"
-
-# (Optional) Verify checksum
-curl -sL "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_checksums.txt" | grep $PLATFORM | sha256sum --check
-
-tar -xzf eksctl_$PLATFORM.tar.gz -C /tmp && rm eksctl_$PLATFORM.tar.gz
-
-sudo mv /tmp/eksctl /usr/local/bin
-```
-
-## Install helm
-
-1. Install Helm. This is neeed for installing AWS Ingress controller.
-```
-curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
-chmod 700 get_helm.sh
-./get_helm.sh
-
-helm version
-```
-
-## Install kubectl 
-
-1.  Install kubectl. We will install 1.25 version for this lab. Verify the downloaded binary with the SHA-256 checksum for your binary. Additional details related to K8s releases can be found from [here](https://kubernetes.io/releases/). There are newer versions 1.26, 1.27 available now.
-
-```
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.25.9/2023-05-11/bin/linux/amd64/kubectl
-```
-
-2. Verify the downloaded binary with the SHA-256 checksum for your binary. Download the SHA-256 checksum for your cluster's Kubernetes version from Amazon S3.
-
-```
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.25.9/2023-05-11/bin/linux/amd64/kubectl.sha256
-```
-3. Check the SHA-256 checksum for your downloaded binary with one of the following commands. The output should be "kubectl: OK"
-```
-sha256sum -c kubectl.sha256
-```
-4. Apply execute permissions to the binary. Copy the binary to a folder in your PATH. Validate by running the version command 
-
-```
-chmod +x ./kubectl
-
-mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$HOME/bin:$PATH
-
-kubectl version --short --client
-
-```
-
-## Deploy EKS cluster 
-
-Now we are ready to deploy our EKS cluster. Give the cluster name based on your student number like student-1, student-2..
-
-```
-eksctl create cluster student-<your number>
-```
-
-If the student is root or IAM user with "Admin Access" then the cluster will be created in about 15 to 20 minutes. We will go back to slides to cover AWS services and work on this EKS cluster once fully deployed.
-
-In this lab we deployed an EC2 instance, installed all the necessary utilites, and started the deployment of an EKS cluster.
-
-When ready continue to the next lab  [Lab 2 - Connect and Deploy a sample ppplication from EKS](Lab%202%20-%20Sample%20App%20in%20EKS)
+* Conclusion and Next Steps
