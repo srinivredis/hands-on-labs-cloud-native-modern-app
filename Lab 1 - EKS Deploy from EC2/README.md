@@ -264,4 +264,4 @@ If the student is root or IAM user with "Admin Access" then the cluster will be 
 
 In this lab we deployed an EC2 instance, installed all the necessary utilites, and started the deployment of an EKS cluster.
 
-When ready continue to the next lab  [Lab 2 - Sample application in EKS](Lab%202%20-%20Sample%20App%20in%20EKS)
+See you in the next lab.  [Go back](..)
