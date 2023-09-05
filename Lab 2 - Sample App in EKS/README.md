@@ -104,4 +104,4 @@ kubectl -n yelb get deploy,po,svc
 
 In this lab, we successfully connected to our EKS cluster, deployed a sample app, and validated the app.
 
-When ready continue to the next lab  [Lab 3 - Deploy Cloud Native Application](Lab%203%20-%20Deploy%20Cloud%20Native%20App)
+See you in the next lab.  [Go back](..)

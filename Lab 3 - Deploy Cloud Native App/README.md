@@ -208,4 +208,4 @@ kubectl get deploy,ing,svc,po
 
 In this lab, we have deployed a modern cloud native application in EKS cluster. We also learned how to install AWS ingress controller and route traffic to the appropriate services.
 
-When ready continue to the next lab [Lab 4 - Cleanup](Lab%204%20-%20Cleanup)
+See you in the next lab.  [Go back](..)
