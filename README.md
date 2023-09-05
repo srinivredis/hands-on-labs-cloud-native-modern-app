@@ -7,7 +7,7 @@ Amazon Elastic Kubernetes Service (Amazon EKS) is a managed Kubernetes service t
 
 
 
-In this workshop, we will look at a monolith bank application and then deploy the same application as a microservices based application inside an EKS cluster. We will leverage Redis Enterprise Cloud on AWS as the modern data store. This hands-on experience will serve as a great learning experience on how to build and deploy modern cloud-native real-time applications leveraging Redis Enterprise Cloud and AWS services.
+In this workshop, we will look at a monolithic bank application and then deploy the same application as a microservices based application inside an EKS cluster. We will leverage Redis Enterprise Cloud on AWS as the modern data store. This hands-on experience will serve as a great learning experience on how to build and deploy modern cloud-native real-time applications leveraging Redis Enterprise Cloud and AWS services.
 
 ## Venue
 These hands-on workshops are designed for in-person and for virtual experiences.

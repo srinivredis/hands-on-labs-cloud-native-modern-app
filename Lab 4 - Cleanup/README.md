@@ -34,10 +34,19 @@ kubectl delete svc redisbank-am redisbank-pfm redisbank-tr redisbank-ui
 ```
 
 4. Delete your EKS cluster.  Enter your student number.
-This step may take up to 10 minutes.
+This step may take up to 10 minutes.  This will also delete OIDC provider.
 
 ```
 eksctl delete cluster <studentX>
+```
+
+The IAM service account and the policy can be deleted using the below commands. Please use your cluster name and your ploicy ARN.
+
+```
+eksctl delete iamserviceaccount --name aws-load-balancer-controller --cluster <CLUSTER-NAME> --namespace kube-system
+
+aws iam delete-policy --policy-arn <AWSLoadBalancerControllerIAMPolicy-ARN>
+
 ```
 
 5. Validate from AWS console by going to EKS and making sure the cluster is deleted.

@@ -28,7 +28,7 @@ If you are the root user or an IAM user with "Admin Access" then you should be a
 
 ![](images/marketplace-ami.png)
 
-4. In the search results select CentOS 8x for x86_64 architecture, as shown.
+4. In the search results select CentOS 8 for x86_64 architecture, as shown.
 
 ![](images/select-centos.png)
 

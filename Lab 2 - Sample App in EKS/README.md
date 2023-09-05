@@ -50,7 +50,7 @@ kubectl get nodes
 ```
 
 ```
-[centos@ip-172-31-0-92 ~]$ k get nodes
+[centos@ip-172-31-0-92 ~]$ kubectl get nodes
 NAME                                           STATUS   ROLES    AGE   VERSION
 ip-192-168-43-127.us-west-2.compute.internal   Ready    <none>   44m   v1.25.11-eks-a5565ad
 ip-192-168-66-250.us-west-2.compute.internal   Ready    <none>   44m   v1.25.11-eks-a5565ad

@@ -14,7 +14,7 @@ In the sheet that is made available, please pick the DB connection string, port,
 
 
 	
-  To create monolith bank application, please use [this](https://github.com/Redislabs-Solution-Architects/redisbank) repo.
+  To create monolithic bank application, please use [this](https://github.com/Redislabs-Solution-Architects/redisbank) repo.
   
   To create images and push them into container registry, you will see the steps in [this](https://github.com/Redislabs-Solution-Architects/redisbank-microservices) git repo.
 
@@ -202,8 +202,9 @@ kubectl apply -f tr-manifest.yaml
 kubectl get deploy,ing,svc,po
 ```
 
-2. Validate search functionailty
+2. Validate search functionailty by entering the 'description' terms like "Fuel", "Coffee" under "Search Transactions" and you will see the results instantly
 
+![](images/search-desc.png)
 
 
 In this lab, we have deployed a modern cloud native application in EKS cluster. We also learned how to install AWS ingress controller and route traffic to the appropriate services.
