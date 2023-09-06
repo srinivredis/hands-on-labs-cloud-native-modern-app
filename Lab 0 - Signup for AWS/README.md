@@ -15,7 +15,7 @@ We genuinely appreciate any input you can provide, whether it is regarding any i
 ## Signup for AWS
 If you haven't registered for an account yet, please visit [here](https://aws.amazon.com/) to initiate the signup process.
 
-During the registration, you will be required to provide your phone number and credit card details. The overall expenses for the lab are expected to remain below $50. However, it's worth noting that AWS is offering a credit specifically for lab participants, which will more than offset these costs.
+During the registration, you will be required to provide your phone number and credit card details. The overall expenses for the lab are expected to remain below $60. However, it's worth noting that AWS is offering a credit specifically for lab participants, which will more than offset these costs.
 
 At the conclusion of the lab, we will guide you through the process of deleting any resources you have deployed, ensuring proper resource management.
 
