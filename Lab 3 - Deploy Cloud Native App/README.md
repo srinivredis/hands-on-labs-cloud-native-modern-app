@@ -8,6 +8,8 @@ Duration: 60 mins
 - Install AWS Ingress Controller - AWS Loadbalancer Controller
 - Deply various banks apps and review 
 
+  ![](images/overview_lab3.png)
+
 This is the fun part. Biggest section of our labs. This is where we will deploy the cloud native bank app.
 
 In the sheet that is made available, please pick the DB connection string, port, and password details against your student #
@@ -16,7 +18,7 @@ In the sheet that is made available, please pick the DB connection string, port,
 	
   To create monolithic bank application, please use [this](https://github.com/Redislabs-Solution-Architects/redisbank) repo.
   
-  To create images and push them into container registry, you will see the steps in [this](https://github.com/Redislabs-Solution-Architects/redisbank-microservices) git repo.
+  To create images and push them into container registry, you will see the steps in [this](https://github.com/srinivredis/redisbank-microservices-re-aws) git repo.
 
   In the interest of time, I have already created the images and moved them to ECR. We will directly use those images in our manifest files and deploy applications in our EKS cluster.
 
@@ -172,7 +174,7 @@ kubectl get deploy,ing,svc,po
 ![](images/pfm-ingress.png)
 
 
-![](images/am-deploy.png)
+![](images/am-deploy-changes.png)
 ![](images/am-ingress.png)
 
 ```

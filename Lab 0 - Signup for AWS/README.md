@@ -12,6 +12,10 @@ As you progress through these labs, we highly value your feedback. To assist us 
 
 We genuinely appreciate any input you can provide, whether it is regarding any identified bugs, suggestions to improve usability, or general comments. We also welcome pull requests if you wish to contribute directly to the project.
 
+
+
+![](images/overview-lab0.png)
+
 ## Signup for AWS
 If you haven't registered for an account yet, please visit [here](https://aws.amazon.com/) to initiate the signup process.
 

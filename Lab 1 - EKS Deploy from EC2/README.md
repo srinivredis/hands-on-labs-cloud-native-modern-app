@@ -11,6 +11,8 @@ Duration: 30 mins
 In this lab we will launch an EC2 instance and install all the necessary utilities.Then we will deploy EKS cluster. 
 If you are the root user or an IAM user with "Admin Access" then you should be all set with all the permissions needed to run the labs.
 
+  ![](images/overview_lab1.png)
+
 
 ## Prepare environment
 
@@ -254,10 +256,10 @@ kubectl version --short --client
 
 ## Deploy EKS cluster 
 
-Now we are ready to deploy our EKS cluster. Give the cluster name based on your student number like student-1, student-2..
+Now we are ready to deploy our EKS cluster. Give the cluster name based on your student number like student1, student2..
 
 ```
-eksctl create cluster student-<your number>
+eksctl create cluster student<your number>
 ```
 
 If the student is root or IAM user with "Admin Access" then the cluster will be created in about 15 to 20 minutes. We will go back to slides to cover AWS services and work on this EKS cluster once fully deployed.

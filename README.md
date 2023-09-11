@@ -25,6 +25,12 @@ Here are few hard skills that you would want to bring to the table:
 
 You will also bring your own laptop / desktop with a browser. You will also bring your AWS account. But don't worry, AWS is giving credits that you can use to run these labs up until you exhaust these credits. We will also help you with cleanup scripts so that you do not get a surprise bill at the end. More on it in the labs.
 
+
+
+## Lab Overview
+
+![](overview_final.png)
+
 ## Agenda
 
 * Introductions
@@ -57,6 +63,8 @@ You will also bring your own laptop / desktop with a browser. You will also brin
   * Deploy ui app and expose it as a service and deploy an ingress
   * Deploy the remaining applications 
   * Validate
+
+
 
 * [Lab 4 - Cleanup](Lab%204%20-%20Cleanup)
 
