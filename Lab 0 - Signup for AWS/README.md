@@ -14,7 +14,7 @@ We genuinely appreciate any input you can provide, whether it is regarding any i
 
 
 
-![](images/overview-lab0.png)
+![](images/overview_lab0.png)
 
 ## Signup for AWS
 If you haven't registered for an account yet, please visit [here](https://aws.amazon.com/) to initiate the signup process.

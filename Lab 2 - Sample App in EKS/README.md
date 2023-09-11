@@ -11,6 +11,7 @@ Duration: 15 mins
 
 In this lab we will connect to the EKS cluster we deployed in the previous lab. We will then deploy a sample app called "yelb". After reviewing the app, we will delete the sample app.
 
+  ![](images/overview_lab2.png)
 
 
 # Connect to EKS cluster
